@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "330108914367",
+    "project_id": "scribble-7a003",
+    "storage_bucket": "scribble-7a003.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:330108914367:android:fda380ab6322393bb3d40a",
+        "android_client_info": {
+          "package_name": "com.nbird.scribble"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "330108914367-je6rvsl9ionnsagcjekodifjao669o8c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBudZKDfe5BGOftqUcobLD9V3oQVV7cS78"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "330108914367-je6rvsl9ionnsagcjekodifjao669o8c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

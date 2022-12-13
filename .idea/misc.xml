@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="app/src/main/res/drawable-v24/back4.xml" value="0.227" />
+        <entry key="app/src/main/res/drawable-v24/buttonback.xml" value="0.227" />
+        <entry key="app/src/main/res/drawable-v24/mainmenubuttons.xml" value="0.227" />
+        <entry key="app/src/main/res/drawable/back1.xml" value="0.227" />
+        <entry key="app/src/main/res/drawable/back3.xml" value="0.227" />
+        <entry key="app/src/main/res/drawable/back4.xml" value="0.227" />
+        <entry key="app/src/main/res/drawable/border_theme_2.xml" value="0.224" />
+        <entry key="app/src/main/res/drawable/grey_black.xml" value="0.139" />
+        <entry key="app/src/main/res/drawable/grey_black2.xml" value="0.225" />
+        <entry key="app/src/main/res/drawable/half_round_button.xml" value="0.225" />
+        <entry key="app/src/main/res/drawable/loading_back.xml" value="0.225" />
+        <entry key="app/src/main/res/drawable/mainmenubuttons.xml" value="0.227" />
+        <entry key="app/src/main/res/drawable/uniform_button.xml" value="0.224" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/loading_screen.xml" value="0.2" />
+        <entry key="app/src/main/res/layout/profile_selection_layout.xml" value="0.22" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>
