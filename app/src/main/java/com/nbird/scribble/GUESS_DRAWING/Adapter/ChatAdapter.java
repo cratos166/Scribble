@@ -1,6 +1,7 @@
 package com.nbird.scribble.GUESS_DRAWING.Adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,15 +11,18 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.nbird.scribble.GUESS_DRAWING.MODEL.ChatModel;
 import com.nbird.scribble.R;
 import com.nbird.scribble.WHITE_BOARD.Model.ObjectModel;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> {
     private Context mContext;
-    private List<String> mData;
-    public ChatAdapter(Context mContext, List<String> mData){
+    private ArrayList<ChatModel> mData;
+    public ChatAdapter(Context mContext, ArrayList<ChatModel> mData){
         this.mContext=mContext;
         this.mData=mData;
     }
@@ -40,8 +44,14 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
     @Override
     public void onBindViewHolder( final MyViewHolder holder, final int position) {
 
-        holder.text.setText(mData.get(position));
 
+        if(mData.get(position).getKey()==1){
+            holder.text.setTextColor(Color.parseColor("#FF018786"));
+        }else if(mData.get(position).getKey()==2){
+
+        }
+
+        holder.text.setText(mData.get(position).getValue());
     }
 
 
