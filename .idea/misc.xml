@@ -14,6 +14,7 @@
         <entry key="app/src/main/res/drawable/border_theme_2.xml" value="0.224" />
         <entry key="app/src/main/res/drawable/brush.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/cancel_icon.xml" value="0.3395" />
+        <entry key="app/src/main/res/drawable/circle_button.xml" value="0.2405" />
         <entry key="app/src/main/res/drawable/color.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/curve_light_purple.xml" value="0.403" />
         <entry key="app/src/main/res/drawable/grey_black.xml" value="0.139" />
@@ -38,7 +39,7 @@
         <entry key="app/src/main/res/font/ubuntu.xml" value="0.42717948717948717" />
         <entry key="app/src/main/res/layout/activity_data_maker.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/layout/activity_drawing_guess.xml" value="0.38958333333333334" />
-        <entry key="app/src/main/res/layout/activity_guess_drawing.xml" value="0.38958333333333334" />
+        <entry key="app/src/main/res/layout/activity_guess_drawing.xml" value="0.33" />
         <entry key="app/src/main/res/layout/activity_lobby.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_white_board.xml" value="0.165" />
@@ -46,12 +47,14 @@
         <entry key="app/src/main/res/layout/detail_layout.xml" value="0.2875905797101449" />
         <entry key="app/src/main/res/layout/dialog_brush.xml" value="0.2653985507246377" />
         <entry key="app/src/main/res/layout/dialog_finding_opponent.xml" value="0.4036458333333333" />
+        <entry key="app/src/main/res/layout/dialog_result.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/layout/dialog_select_object.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/layout/layout_chat.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/layout/loading_screen.xml" value="0.2" />
         <entry key="app/src/main/res/layout/lobby_detail_layout.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/layout/object_layout.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/layout/profile_selection_layout.xml" value="0.22" />
+        <entry key="app/src/main/res/layout/result_item.xml" value="0.4036458333333333" />
       </map>
     </option>
   </component>

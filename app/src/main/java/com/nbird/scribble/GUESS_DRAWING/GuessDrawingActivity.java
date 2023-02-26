@@ -2,16 +2,19 @@ package com.nbird.scribble.GUESS_DRAWING;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.textfield.TextInputEditText;
@@ -22,13 +25,17 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.nbird.scribble.GUESS_DRAWING.Adapter.ChatAdapter;
+import com.nbird.scribble.GUESS_DRAWING.Dialog.DialogResult;
 import com.nbird.scribble.GUESS_DRAWING.MODEL.ChatModel;
 import com.nbird.scribble.GUESS_DRAWING.MODEL.DrawingDataModel;
+import com.nbird.scribble.GUESS_DRAWING.MODEL.ResultModel;
 import com.nbird.scribble.MAIN_MENU.Model.PlayerDetails;
 import com.nbird.scribble.R;
 import com.nbird.scribble.UNIVERSAL.DIALOG.LoadingAlertDialog;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -59,6 +66,16 @@ public class GuessDrawingActivity extends AppCompatActivity {
 
     String myName,myImage,myUID;
 
+    CountDownTimer countDownTimer;
+    TextView timerTexView;
+    int timeSec=45;
+
+    ArrayList<ResultModel> resultModelArrayList;
+
+    HashMap<Integer,Boolean> myAns;
+
+    CardView shiftCard;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,6 +85,8 @@ public class GuessDrawingActivity extends AppCompatActivity {
         chatModelArrayList=new ArrayList<>();
         dataModelArrayList=new ArrayList<>();
         playerDetailsArrayList=new ArrayList<>();
+        resultModelArrayList=new ArrayList<>();
+        myAns=new HashMap<>();
 
         myName=getIntent().getStringExtra("myName");
         myImage=getIntent().getStringExtra("myImage");
@@ -78,6 +97,8 @@ public class GuessDrawingActivity extends AppCompatActivity {
         edit=(TextInputEditText) findViewById(R.id.edit);
         send=(Button) findViewById(R.id.send);
         picture=(ImageView) findViewById(R.id.picture);
+        timerTexView=(TextView) findViewById(R.id.timerTexView);
+        shiftCard=(CardView) findViewById(R.id.shiftCard);
 
 
 
@@ -119,6 +140,43 @@ public class GuessDrawingActivity extends AppCompatActivity {
         });
 
 
+        shiftCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ChatModel chatModel=new ChatModel(1,"You skipped the drawing of "+playerDetailsArrayList.get(currentPosition).getMyName());
+                chatModelArrayList.add(chatModel);
+
+                myAns.put(currentPosition,false);
+
+                currentPosition++;
+
+                if(currentPosition!=3){
+                    ChatModel chatModel1=new ChatModel(3,"Guess the drawing by "+playerDetailsArrayList.get(currentPosition).getMyName());
+                    chatModelArrayList.add(chatModel1);
+
+                    try{
+                        Glide.with(getBaseContext())
+                                .load(dataModelArrayList.get(currentPosition).getImageUrl())
+                                .error(Glide.with(getBaseContext()).load(dataModelArrayList.get(currentPosition).getImageUrl()).error(Glide.with(getBaseContext()).load(dataModelArrayList.get(0).getImageUrl()).error(Glide.with(getBaseContext()).load(dataModelArrayList.get(0).getImageUrl()))))
+                                .into(picture);
+                    }catch (Exception e){
+
+                    }
+                }else{
+                    picture.setBackgroundResource(R.color.white);
+                    ChatModel chatModel1=new ChatModel(3,"Done");
+                    chatModelArrayList.add(chatModel1);
+
+                    ChatModel chatModel2=new ChatModel(3,"Please wait unit time is over");
+                    chatModelArrayList.add(chatModel2);
+
+                }
+
+
+            }
+        });
+
+
         myRef.child("ROOM").child(myUID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -149,6 +207,168 @@ public class GuessDrawingActivity extends AppCompatActivity {
         });
 
 
+        countDownTimer=new CountDownTimer(timeSec*1000,1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                timerTexView.setText(String.valueOf(millisUntilFinished/1000));
+            }
+
+            @Override
+            public void onFinish() {
+
+
+
+
+                String str1="";
+                String str2="";
+                String str3="";
+                String p1="+0",p2="+0",p3="+0";
+
+                int totalPoints=0;
+
+                if(myAns.get(0)){
+                    str1="Your guessed the drawing of "+playerDetailsArrayList.get(0).getMyName();
+                    p1="+10";
+                    totalPoints+=10;
+                }else{
+                    str1="You were unable to guess the drawing of "+playerDetailsArrayList.get(0).getMyName();
+                }
+
+                if(myAns.get(1)){
+                    str2="Your guessed the drawing of "+playerDetailsArrayList.get(1).getMyName();
+                    p2="+10";
+                    totalPoints+=10;
+                }else{
+                    str2="You were unable to guess the drawing of "+playerDetailsArrayList.get(1).getMyName();
+                }
+
+                if(myAns.get(2)){
+                    str3="Your guessed the drawing of "+playerDetailsArrayList.get(2).getMyName();
+                    p3="+10";
+                    totalPoints+=10;
+                }else{
+                    str3="You were unable to guess the drawing of "+playerDetailsArrayList.get(2).getMyName();
+                }
+
+                ResultModel resultModel =new ResultModel(myName,myImage,str1,str2,str3,p1,p2,p3,totalPoints);
+
+
+
+                resultModelArrayList.add(resultModel);
+
+
+                for(int i=0;i<playerDetailsArrayList.size();i++){
+
+                    Boolean b1,b2,b3;
+                    int sc=0;
+                    String l1="+0",l2="+0",l3="+0";
+                    String gp1,gp2,gp3;
+
+
+                    Random random=new Random();
+
+                    b1=random.nextBoolean();
+                    if(b1){
+                        gp1="Your guessed the drawing of "+myName;
+                        sc+=10;
+                        l1="+10";
+                    }else{
+                        gp1="You were unable to guess the drawing of "+myName;
+                    }
+
+
+                    b2=random.nextBoolean();
+                    if(b2){
+                        if(i==0){
+                            gp2="Your guessed the drawing of "+playerDetailsArrayList.get(1).getMyName();
+                        }else if(i==1){
+                            gp2="Your guessed the drawing of "+playerDetailsArrayList.get(2).getMyName();
+                        }else{
+                            gp2="Your guessed the drawing of "+playerDetailsArrayList.get(0).getMyName();
+                        }
+
+                        sc+=10;
+                        l2="+10";
+                    }else{
+                        if(i==0){
+                            gp2="You were unable to guess the drawing of "+playerDetailsArrayList.get(1).getMyName();
+                        }else if(i==1){
+                            gp2="You were unable to guess the drawing of "+playerDetailsArrayList.get(2).getMyName();
+                        }else{
+                            gp2="You were unable to guess the drawing of "+playerDetailsArrayList.get(0).getMyName();
+                        }
+
+                    }
+
+                    b3=random.nextBoolean();
+                    if(b3){
+                        if(i==0){
+                            gp3="Your guessed the drawing of "+playerDetailsArrayList.get(2).getMyName();
+                        }else if(i==1){
+                            gp3="Your guessed the drawing of "+playerDetailsArrayList.get(0).getMyName();
+                        }else{
+                            gp3="Your guessed the drawing of "+playerDetailsArrayList.get(1).getMyName();
+                        }
+                        sc+=10;
+                        l3="+10";
+                    }else{
+                        if(i==0){
+                            gp3="You were unable to guess the drawing of "+playerDetailsArrayList.get(2).getMyName();
+                        }else if(i==1){
+                            gp3="You were unable to guess the drawing of "+playerDetailsArrayList.get(0).getMyName();
+                        }else{
+                            gp3="You were unable to guess the drawing of "+playerDetailsArrayList.get(1).getMyName();
+                        }
+                    }
+
+
+
+
+                    ResultModel result =new ResultModel(playerDetailsArrayList.get(i).getMyName(),playerDetailsArrayList.get(i).getMyImage(),gp1,gp2,gp3,l1,l2,l3,sc);
+                    resultModelArrayList.add(result);
+                }
+
+                resultComparator();
+                Collections.reverse(resultModelArrayList);
+
+
+
+                for (int i = 0; i < resultModelArrayList.size(); i++) {
+                    Log.i("getImageURL", String.valueOf(resultModelArrayList.get(i).getImageURL()));
+                    Log.i("getPlayer2Str", String.valueOf(resultModelArrayList.get(i).getPlayer2Str()));
+                    Log.i("getPlayer3Str", String.valueOf(resultModelArrayList.get(i).getPlayer3Str()));
+                    Log.i("getPlayer4Str", String.valueOf(resultModelArrayList.get(i).getPlayer4Str()));
+
+                    Log.i("getPoint2", String.valueOf(resultModelArrayList.get(i).getPoint2()));
+                    Log.i("getPoint3", String.valueOf(resultModelArrayList.get(i).getPoint3()));
+                    Log.i("getPoint4", String.valueOf(resultModelArrayList.get(i).getPoint4()));
+                    Log.i("getName", String.valueOf(resultModelArrayList.get(i).getName()));
+
+                    Log.i("getPoints", String.valueOf(resultModelArrayList.get(i).getPoints()));
+
+                }
+
+
+
+                DialogResult dialogResult=new DialogResult(GuessDrawingActivity.this,resultModelArrayList);
+                dialogResult.start(send);
+
+
+
+            }
+        }.start();
+
+
+    }
+
+    private void resultComparator() {
+
+        Collections.sort(resultModelArrayList, new Comparator<ResultModel>() {
+            @Override
+            public int compare(ResultModel a1, ResultModel a2) {
+                return a1.getPoints() - a2.getPoints();
+            }
+        });
 
     }
 
@@ -157,13 +377,13 @@ public class GuessDrawingActivity extends AppCompatActivity {
             ChatModel chatModel=new ChatModel(1,"You guessed the word!");
             chatModelArrayList.add(chatModel);
 
+            myAns.put(currentPosition,true);
+
             currentPosition++;
 
             if(currentPosition!=3){
                 ChatModel chatModel1=new ChatModel(3,"Guess the drawing by "+playerDetailsArrayList.get(currentPosition).getMyName());
                 chatModelArrayList.add(chatModel1);
-
-
 
                 try{
                     Glide.with(getBaseContext())
@@ -177,6 +397,10 @@ public class GuessDrawingActivity extends AppCompatActivity {
                 picture.setBackgroundResource(R.color.white);
                 ChatModel chatModel1=new ChatModel(3,"Done");
                 chatModelArrayList.add(chatModel1);
+
+                ChatModel chatModel2=new ChatModel(3,"Please wait unit time is over");
+                chatModelArrayList.add(chatModel2);
+
             }
 
 

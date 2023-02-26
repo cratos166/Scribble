@@ -51,7 +51,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
         }else if(mData.get(position).getKey()==2){
 
         }else if(mData.get(position).getKey()==3){
-            holder.text.setTextColor(Color.parseColor("#98A8D0"));
+            holder.text.setTextColor(Color.parseColor("#6A7592"));
         }
         holder.text.setText(mData.get(position).getValue());
 

@@ -38,15 +38,12 @@ public class DialogSelectDrawingObject {
 
     ArrayList<ObjectModel> objectData;
 
-    ValueEventListener playerDetailsValueEventListener;
     ObjectAdapter myAdapter;
 
-    CountDownTimer countDownTimer;
 
-    int numberOfPlayers=1;
 
     ArrayList<Integer> arrayList;
-    TextView numberOfPlayersJoinedTextView,headingTextView;
+    TextView headingTextView;
     AlertDialog alertDialog;
 
     int totalObject=0;
