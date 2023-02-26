@@ -45,4 +45,8 @@ dependencies {
     implementation 'de.hdodenhof:circleimageview:3.1.0'
     implementation 'com.github.bumptech.glide:glide:4.11.0'
     implementation 'com.facebook.shimmer:shimmer:0.1.0@aar'
+    implementation 'petrov.kristiyan:colorpicker-library:1.1.10'
+
+
+
 }

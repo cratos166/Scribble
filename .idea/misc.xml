@@ -3,24 +3,54 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="../../../../layout/custom_preview.xml" value="0.12709832134292565" />
         <entry key="app/src/main/res/drawable-v24/back4.xml" value="0.227" />
         <entry key="app/src/main/res/drawable-v24/buttonback.xml" value="0.227" />
         <entry key="app/src/main/res/drawable-v24/mainmenubuttons.xml" value="0.227" />
         <entry key="app/src/main/res/drawable/back1.xml" value="0.227" />
         <entry key="app/src/main/res/drawable/back3.xml" value="0.227" />
         <entry key="app/src/main/res/drawable/back4.xml" value="0.227" />
+        <entry key="app/src/main/res/drawable/border_theme.xml" value="0.3885" />
         <entry key="app/src/main/res/drawable/border_theme_2.xml" value="0.224" />
+        <entry key="app/src/main/res/drawable/brush.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/cancel_icon.xml" value="0.3395" />
+        <entry key="app/src/main/res/drawable/color.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/curve_light_purple.xml" value="0.403" />
         <entry key="app/src/main/res/drawable/grey_black.xml" value="0.139" />
         <entry key="app/src/main/res/drawable/grey_black2.xml" value="0.225" />
         <entry key="app/src/main/res/drawable/half_round_button.xml" value="0.225" />
+        <entry key="app/src/main/res/drawable/ic_baseline_undo_24.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/loading_back.xml" value="0.225" />
+        <entry key="app/src/main/res/drawable/main_card_boarder.xml" value="0.3395" />
         <entry key="app/src/main/res/drawable/mainmenubuttons.xml" value="0.227" />
+        <entry key="app/src/main/res/drawable/next_button.xml" value="0.3395" />
+        <entry key="app/src/main/res/drawable/next_button_3.xml" value="0.225" />
+        <entry key="app/src/main/res/drawable/next_button_dark.xml" value="0.2405" />
+        <entry key="app/src/main/res/drawable/rightleft_bottom_radius.xml" value="0.3395" />
+        <entry key="app/src/main/res/drawable/rightleft_top_radius.xml" value="0.3395" />
+        <entry key="app/src/main/res/drawable/save.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/shareicon.xml" value="0.403" />
+        <entry key="app/src/main/res/drawable/single_color_2.xml" value="0.1455" />
+        <entry key="app/src/main/res/drawable/single_color_3.xml" value="0.3395" />
+        <entry key="app/src/main/res/drawable/top_right_radius.xml" value="0.3395" />
+        <entry key="app/src/main/res/drawable/undo.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/uniform_button.xml" value="0.224" />
+        <entry key="app/src/main/res/font/ubuntu.xml" value="0.42717948717948717" />
+        <entry key="app/src/main/res/layout/activity_data_maker.xml" value="0.4036458333333333" />
+        <entry key="app/src/main/res/layout/activity_drawing_guess.xml" value="0.38958333333333334" />
+        <entry key="app/src/main/res/layout/activity_guess_drawing.xml" value="0.38958333333333334" />
         <entry key="app/src/main/res/layout/activity_lobby.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_white_board.xml" value="0.165" />
+        <entry key="app/src/main/res/layout/brush_width_slider.xml" value="0.2653985507246377" />
+        <entry key="app/src/main/res/layout/detail_layout.xml" value="0.2875905797101449" />
+        <entry key="app/src/main/res/layout/dialog_brush.xml" value="0.2653985507246377" />
+        <entry key="app/src/main/res/layout/dialog_finding_opponent.xml" value="0.4036458333333333" />
+        <entry key="app/src/main/res/layout/dialog_select_object.xml" value="0.4036458333333333" />
+        <entry key="app/src/main/res/layout/layout_chat.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/layout/loading_screen.xml" value="0.2" />
+        <entry key="app/src/main/res/layout/lobby_detail_layout.xml" value="0.4036458333333333" />
+        <entry key="app/src/main/res/layout/object_layout.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/layout/profile_selection_layout.xml" value="0.22" />
       </map>
     </option>

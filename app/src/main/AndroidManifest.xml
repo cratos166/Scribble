@@ -3,6 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.nbird.scribble">
 
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -14,10 +17,16 @@
         android:theme="@style/AppTheme"
         tools:targetApi="31">
         <activity
-            android:name=".LobbyActivity"
+            android:name=".DATA_MAKER.DataMakerActivity"
             android:exported="false" />
         <activity
-            android:name=".MainMenu.Activity.MainActivity"
+            android:name=".GUESS_DRAWING.GuessDrawingActivity"
+            android:exported="false" />
+        <activity
+            android:name=".WHITE_BOARD.WhiteBoardActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MAIN_MENU.Activity.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

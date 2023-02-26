@@ -178,8 +178,14 @@
                 android:textSize="22dp"
                 android:textStyle="bold" />
 
-
+            <Button
+                android:id="@+id/dataMaker"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text="DATA MAKER"
+                />
         </LinearLayout>
+
 
 
     </LinearLayout>

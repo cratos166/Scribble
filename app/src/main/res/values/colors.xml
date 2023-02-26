@@ -19,5 +19,7 @@
     <color name="text_head">#BFD1FF</color>
     <color name="text_dis">#DEE7FF</color>
     <color name="mainmenubuttonback">#3D4352</color>
+    <color name="dark_back_4">#2E323C</color>
+    <color name="background">#303646</color>
 
 </resources>

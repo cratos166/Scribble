@@ -1,4 +1,4 @@
-package com.nbird.scribble.MainMenu.Model;
+package com.nbird.scribble.MAIN_MENU.Model;
 
 public class RoomDataHolder {
 

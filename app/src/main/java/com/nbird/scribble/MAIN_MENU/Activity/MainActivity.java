@@ -1,18 +1,15 @@
-package com.nbird.scribble.MainMenu.Activity;
+package com.nbird.scribble.MAIN_MENU.Activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.ColorDrawable;
@@ -20,7 +17,6 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,7 +30,6 @@ import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
-import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -48,14 +43,15 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.nbird.scribble.DATA.AppData;
 import com.nbird.scribble.DATA.AppString;
-import com.nbird.scribble.MainMenu.Model.PlayerInfo;
+import com.nbird.scribble.DATA_MAKER.DataMakerActivity;
+import com.nbird.scribble.MAIN_MENU.Dialog.FindingOpponents;
+import com.nbird.scribble.MAIN_MENU.Model.PlayerInfo;
 import com.nbird.scribble.R;
 import com.nbird.scribble.UNIVERSAL.DIALOG.LoadingAlertDialog;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 
@@ -108,6 +104,8 @@ public class MainActivity extends AppCompatActivity {
     LoadingAlertDialog loadingAlertDialog;
     AlertDialog alertDialog;
 
+    Button dataMaker;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -131,6 +129,16 @@ public class MainActivity extends AppCompatActivity {
         play=(Button) findViewById(R.id.play);
         how_to_play=(Button) findViewById(R.id.how_to_play);
         about_us=(Button) findViewById(R.id.about_us);
+        dataMaker=(Button) findViewById(R.id.dataMaker);
+
+        dataMaker.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(MainActivity.this, DataMakerActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
 
 
 
@@ -210,6 +218,20 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+
+
+        play.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FindingOpponents findingOpponents=new FindingOpponents(MainActivity.this,myNameStr,myPicStr,myUIDstr);
+                findingOpponents.start(play);
+            }
+        });
+
+
+
+        myRef.child("ROOM").child(myUIDstr).removeValue();
 
 
     }
