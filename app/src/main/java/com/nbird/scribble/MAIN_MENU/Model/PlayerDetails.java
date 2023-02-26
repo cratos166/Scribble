@@ -4,14 +4,24 @@ public class PlayerDetails {
 
     String myName;
     String myImage;
+    String UID;
 
 
     public PlayerDetails() {
     }
 
-    public PlayerDetails(String myName, String myImage) {
+    public PlayerDetails(String myName, String myImage,String UID) {
         this.myName = myName;
         this.myImage = myImage;
+        this.UID=UID;
+    }
+
+    public String getUID() {
+        return UID;
+    }
+
+    public void setUID(String UID) {
+        this.UID = UID;
     }
 
     public String getMyName() {

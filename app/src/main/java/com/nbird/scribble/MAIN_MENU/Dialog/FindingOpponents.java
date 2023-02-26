@@ -97,7 +97,7 @@ public class FindingOpponents {
 
 
 
-        PlayerDetails playerDetails=new PlayerDetails(myName,myImage);
+        PlayerDetails playerDetails=new PlayerDetails(myName,myImage,myUID);
 
         table_user.child("ROOM").child(myUID).child(myUID).setValue(playerDetails).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
@@ -197,6 +197,9 @@ public class FindingOpponents {
 
 
                 Intent intent=new Intent(context, WhiteBoardActivity.class);
+                intent.putExtra("myName",myName);
+                intent.putExtra("myImage",myImage);
+                intent.putExtra("myUID",myUID);
                 context.startActivity(intent);
             }
         }.start();
@@ -245,8 +248,8 @@ public class FindingOpponents {
 
 
     private void opponentUploader(PlayerDetails playerDetails){
-        UUID uuid = UUID.randomUUID();
-        table_user.child("ROOM").child(myUID).child(String.valueOf(uuid)).setValue(playerDetails).addOnCompleteListener(new OnCompleteListener<Void>() {
+
+        table_user.child("ROOM").child(myUID).child(playerDetails.getUID()).setValue(playerDetails).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
 
@@ -266,8 +269,8 @@ public class FindingOpponents {
         if(tt<13){
             String image= avatarLink.getArr().get(tom);
             String name=new BOTName().start();
-
-            PlayerDetails playerDetails=new PlayerDetails(name,image);
+            UUID uuid = UUID.randomUUID();
+            PlayerDetails playerDetails=new PlayerDetails(name,image,String.valueOf(uuid));
             opponentUploader(playerDetails);
 
         }else{
@@ -330,8 +333,8 @@ public class FindingOpponents {
 
 
                 String name=new BOTName().start();
-
-                PlayerDetails playerDetails=new PlayerDetails(name,oppoURL);
+                UUID uuid = UUID.randomUUID();
+                PlayerDetails playerDetails=new PlayerDetails(name,oppoURL,String.valueOf(uuid));
                 opponentUploader(playerDetails);
 
 

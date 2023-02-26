@@ -44,14 +44,17 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
     @Override
     public void onBindViewHolder( final MyViewHolder holder, final int position) {
 
+        holder.setIsRecyclable(false);
 
         if(mData.get(position).getKey()==1){
             holder.text.setTextColor(Color.parseColor("#FF018786"));
         }else if(mData.get(position).getKey()==2){
 
+        }else if(mData.get(position).getKey()==3){
+            holder.text.setTextColor(Color.parseColor("#98A8D0"));
         }
-
         holder.text.setText(mData.get(position).getValue());
+
     }
 
 

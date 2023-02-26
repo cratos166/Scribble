@@ -59,7 +59,7 @@ public class WhiteBoardActivity extends AppCompatActivity {
     TextView wordTextView,timerTexView;
     CountDownTimer countDownTimer;
     int timer=40;
-
+    String myName,myImage,myUID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +76,9 @@ public class WhiteBoardActivity extends AppCompatActivity {
         }
 
 
+        myName=getIntent().getStringExtra("myName");
+        myImage=getIntent().getStringExtra("myImage");
+        myUID=getIntent().getStringExtra("myUID");
 
 
 
@@ -114,6 +117,9 @@ public class WhiteBoardActivity extends AppCompatActivity {
             public void onFinish() {
 
                 Intent intent=new Intent(WhiteBoardActivity.this, GuessDrawingActivity.class);
+                intent.putExtra("myName",myName);
+                intent.putExtra("myImage",myImage);
+                intent.putExtra("myUID",myUID);
                 startActivity(intent);
                 finish();
 
