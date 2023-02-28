@@ -56,6 +56,8 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.MyViewHold
         holder.player3.setText(mData.get(position).getPlayer3Str());
         holder.player4.setText(mData.get(position).getPlayer4Str());
         holder.totalScore.setText("Total Score : "+mData.get(position).getPoints());
+        holder.text5.setText("Score gained by your drawing : ");
+        holder.text6.setText("+"+mData.get(position).getExtraPoint());
 
 
         if(position==0){
@@ -82,7 +84,7 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.MyViewHold
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder{
-        TextView myName,mark1,mark2,mark3,player2,player3,player4,totalScore,rank;
+        TextView myName,mark1,mark2,mark3,player2,player3,player4,totalScore,rank,text5,text6;
         ImageView myPic;
 
 
@@ -102,6 +104,8 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.MyViewHold
             totalScore=(TextView) itemView.findViewById(R.id.totalScore);
             myPic=(ImageView) itemView.findViewById(R.id.myPic);
             rank=(TextView) itemView.findViewById(R.id.rank);
+            text5=(TextView) itemView.findViewById(R.id.text5);
+            text6=(TextView) itemView.findViewById(R.id.text6);
 
         }
 

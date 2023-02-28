@@ -411,4 +411,10 @@ public class DataMakerActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        myRef.child("OBJECT_COUNT").removeEventListener(valueEventListener);
+    }
 }

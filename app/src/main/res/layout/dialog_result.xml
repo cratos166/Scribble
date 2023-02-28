@@ -43,33 +43,27 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
+            <ImageView
+                android:id="@+id/cancel"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="end"
+                android:layout_margin="10dp"
+                android:background="@drawable/cancel_icon"
+                app:layout_constraintEnd_toEndOf="@+id/layoutDialog"
+                app:layout_constraintTop_toTopOf="parent" />
 
-
-            <com.airbnb.lottie.LottieAnimationView
-                android:id="@+id/imageIcon"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="10dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:lottie_autoPlay="true"
-                app:lottie_loop="true"
-                app:lottie_rawRes="@raw/resultanim"
-                app:lottie_speed="1" />
 
             <TextView
                 android:id="@+id/textTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_margin="5dp"
                 android:layout_gravity="center"
                 android:background="@drawable/single_color_3"
                 android:fontFamily="@font/annie_use_your_telescope"
                 android:gravity="center"
                 android:padding="10dp"
+                android:layout_marginTop="10dp"
                 android:text="RESULTS"
                 android:textColor="@color/text_head"
                 android:textSize="18dp"
@@ -81,10 +75,38 @@
          <androidx.recyclerview.widget.RecyclerView
              android:id="@+id/recyclerView"
              android:layout_width="match_parent"
-             android:layout_height="220dp"
+             android:layout_height="500dp"
              android:layout_margin="10dp"/>
 
 
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/next"
+                    android:layout_width="250dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="15dp"
+                    android:layout_weight="1"
+                    android:layout_marginBottom="5dp"
+                    android:background="@drawable/next_button"
+                    android:fontFamily="@font/annie_use_your_telescope"
+                    android:scaleX="0.8"
+                    android:scaleY="0.8"
+                    android:text="Next game starts in 10 sec"
+                    android:textColor="@color/white"
+                    android:textSize="15dp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="@+id/linearLayout36"
+                    app:layout_constraintEnd_toEndOf="@+id/linearLayout36" />
+
+
+            </LinearLayout>
 
 
         </LinearLayout>

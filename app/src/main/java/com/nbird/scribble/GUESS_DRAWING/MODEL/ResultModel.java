@@ -8,11 +8,12 @@ public class ResultModel {
 
     String point2,point3,point4;
     int points;
+    int extraPoint;
 
     public ResultModel() {
     }
 
-    public ResultModel(String name, String imageURL, String player2Str, String player3Str, String player4Str, String point2, String point3, String point4, int points) {
+    public ResultModel(String name, String imageURL, String player2Str, String player3Str, String player4Str, String point2, String point3, String point4, int points,int extraPoint) {
         this.name = name;
         this.imageURL = imageURL;
         this.player2Str = player2Str;
@@ -21,8 +22,16 @@ public class ResultModel {
         this.point2 = point2;
         this.point3 = point3;
         this.point4 = point4;
-
         this.points = points;
+        this.extraPoint=extraPoint;
+    }
+
+    public int getExtraPoint() {
+        return extraPoint;
+    }
+
+    public void setExtraPoint(int extraPoint) {
+        this.extraPoint = extraPoint;
     }
 
     public String getName() {

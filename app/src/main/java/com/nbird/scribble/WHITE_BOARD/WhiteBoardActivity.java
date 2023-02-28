@@ -312,4 +312,12 @@ public class WhiteBoardActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        try{countDownTimer.cancel();}catch (Exception e){}
+
+    }
+
 }

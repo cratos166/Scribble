@@ -73,6 +73,7 @@ public class GuessDrawingActivity extends AppCompatActivity {
     ArrayList<ResultModel> resultModelArrayList;
 
     HashMap<Integer,Boolean> myAns;
+    HashMap<Integer,Integer> extraPoint;
 
     CardView shiftCard;
 
@@ -87,6 +88,13 @@ public class GuessDrawingActivity extends AppCompatActivity {
         playerDetailsArrayList=new ArrayList<>();
         resultModelArrayList=new ArrayList<>();
         myAns=new HashMap<>();
+        extraPoint=new HashMap<>();
+
+        for(int i=0;i<4;i++){
+            extraPoint.put(i,0);
+        }
+
+        myAns.put(0,false); myAns.put(1,false); myAns.put(2,false);
 
         myName=getIntent().getStringExtra("myName");
         myImage=getIntent().getStringExtra("myImage");
@@ -170,7 +178,15 @@ public class GuessDrawingActivity extends AppCompatActivity {
                     ChatModel chatModel2=new ChatModel(3,"Please wait unit time is over");
                     chatModelArrayList.add(chatModel2);
 
+                    edit.setVisibility(View.GONE);
+                    send.setVisibility(View.GONE);
+                    shiftCard.setVisibility(View.GONE);
+
                 }
+
+                chatAdapter.notifyDataSetChanged();
+                edit.setText("");
+                recyclerView2.smoothScrollToPosition(recyclerView2.getAdapter().getItemCount());
 
 
             }
@@ -226,10 +242,13 @@ public class GuessDrawingActivity extends AppCompatActivity {
 
                 int totalPoints=0;
 
+
+
                 if(myAns.get(0)){
                     str1="Your guessed the drawing of "+playerDetailsArrayList.get(0).getMyName();
                     p1="+10";
                     totalPoints+=10;
+                    extraPoint.put(1,extraPoint.get(1)+10);
                 }else{
                     str1="You were unable to guess the drawing of "+playerDetailsArrayList.get(0).getMyName();
                 }
@@ -238,6 +257,7 @@ public class GuessDrawingActivity extends AppCompatActivity {
                     str2="Your guessed the drawing of "+playerDetailsArrayList.get(1).getMyName();
                     p2="+10";
                     totalPoints+=10;
+                    extraPoint.put(2,extraPoint.get(2)+10);
                 }else{
                     str2="You were unable to guess the drawing of "+playerDetailsArrayList.get(1).getMyName();
                 }
@@ -246,11 +266,12 @@ public class GuessDrawingActivity extends AppCompatActivity {
                     str3="Your guessed the drawing of "+playerDetailsArrayList.get(2).getMyName();
                     p3="+10";
                     totalPoints+=10;
+                    extraPoint.put(3,extraPoint.get(3)+10);
                 }else{
                     str3="You were unable to guess the drawing of "+playerDetailsArrayList.get(2).getMyName();
                 }
 
-                ResultModel resultModel =new ResultModel(myName,myImage,str1,str2,str3,p1,p2,p3,totalPoints);
+                ResultModel resultModel =new ResultModel(myName,myImage,str1,str2,str3,p1,p2,p3,totalPoints,0);
 
 
 
@@ -272,6 +293,7 @@ public class GuessDrawingActivity extends AppCompatActivity {
                         gp1="Your guessed the drawing of "+myName;
                         sc+=10;
                         l1="+10";
+                        extraPoint.put(0,extraPoint.get(0)+10);
                     }else{
                         gp1="You were unable to guess the drawing of "+myName;
                     }
@@ -281,10 +303,13 @@ public class GuessDrawingActivity extends AppCompatActivity {
                     if(b2){
                         if(i==0){
                             gp2="Your guessed the drawing of "+playerDetailsArrayList.get(1).getMyName();
+                            extraPoint.put(2,extraPoint.get(2)+10);
                         }else if(i==1){
                             gp2="Your guessed the drawing of "+playerDetailsArrayList.get(2).getMyName();
+                            extraPoint.put(3,extraPoint.get(3)+10);
                         }else{
                             gp2="Your guessed the drawing of "+playerDetailsArrayList.get(0).getMyName();
+                            extraPoint.put(1,extraPoint.get(1)+10);
                         }
 
                         sc+=10;
@@ -292,10 +317,13 @@ public class GuessDrawingActivity extends AppCompatActivity {
                     }else{
                         if(i==0){
                             gp2="You were unable to guess the drawing of "+playerDetailsArrayList.get(1).getMyName();
+
                         }else if(i==1){
                             gp2="You were unable to guess the drawing of "+playerDetailsArrayList.get(2).getMyName();
+
                         }else{
                             gp2="You were unable to guess the drawing of "+playerDetailsArrayList.get(0).getMyName();
+
                         }
 
                     }
@@ -304,10 +332,13 @@ public class GuessDrawingActivity extends AppCompatActivity {
                     if(b3){
                         if(i==0){
                             gp3="Your guessed the drawing of "+playerDetailsArrayList.get(2).getMyName();
+                            extraPoint.put(3,extraPoint.get(3)+10);
                         }else if(i==1){
                             gp3="Your guessed the drawing of "+playerDetailsArrayList.get(0).getMyName();
+                            extraPoint.put(1,extraPoint.get(1)+10);
                         }else{
                             gp3="Your guessed the drawing of "+playerDetailsArrayList.get(1).getMyName();
+                            extraPoint.put(2,extraPoint.get(2)+10);
                         }
                         sc+=10;
                         l3="+10";
@@ -324,12 +355,26 @@ public class GuessDrawingActivity extends AppCompatActivity {
 
 
 
-                    ResultModel result =new ResultModel(playerDetailsArrayList.get(i).getMyName(),playerDetailsArrayList.get(i).getMyImage(),gp1,gp2,gp3,l1,l2,l3,sc);
+                    ResultModel result =new ResultModel(playerDetailsArrayList.get(i).getMyName(),playerDetailsArrayList.get(i).getMyImage(),gp1,gp2,gp3,l1,l2,l3,sc,0);
                     resultModelArrayList.add(result);
                 }
 
+
+                resultModelArrayList.get(0).setPoints(resultModelArrayList.get(0).getPoints()+extraPoint.get(0));
+                resultModelArrayList.get(1).setPoints(resultModelArrayList.get(1).getPoints()+extraPoint.get(1));
+                resultModelArrayList.get(2).setPoints(resultModelArrayList.get(2).getPoints()+extraPoint.get(2));
+                resultModelArrayList.get(3).setPoints(resultModelArrayList.get(3).getPoints()+extraPoint.get(3));
+
+
+                resultModelArrayList.get(0).setExtraPoint(extraPoint.get(0));
+                resultModelArrayList.get(1).setExtraPoint(extraPoint.get(1));
+                resultModelArrayList.get(2).setExtraPoint(extraPoint.get(2));
+                resultModelArrayList.get(3).setExtraPoint(extraPoint.get(3));
+
+
                 resultComparator();
                 Collections.reverse(resultModelArrayList);
+
 
 
 
@@ -350,7 +395,7 @@ public class GuessDrawingActivity extends AppCompatActivity {
 
 
 
-                DialogResult dialogResult=new DialogResult(GuessDrawingActivity.this,resultModelArrayList);
+                DialogResult dialogResult=new DialogResult(GuessDrawingActivity.this,resultModelArrayList,myName,myImage,myUID);
                 dialogResult.start(send);
 
 
@@ -401,11 +446,11 @@ public class GuessDrawingActivity extends AppCompatActivity {
                 ChatModel chatModel2=new ChatModel(3,"Please wait unit time is over");
                 chatModelArrayList.add(chatModel2);
 
+                edit.setVisibility(View.GONE);
+                send.setVisibility(View.GONE);
+                shiftCard.setVisibility(View.GONE);
+
             }
-
-
-
-
 
 
         }else{
@@ -547,5 +592,13 @@ public class GuessDrawingActivity extends AppCompatActivity {
 
     } // end of equalIgnoreCase function
 
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        try{countDownTimer.cancel();}catch (Exception e){}
+
+    }
 
 }

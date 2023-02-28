@@ -1,10 +1,12 @@
 package com.nbird.scribble.GUESS_DRAWING.Dialog;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.CountDownTimer;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -24,9 +26,11 @@ import com.google.firebase.database.ValueEventListener;
 import com.nbird.scribble.GUESS_DRAWING.Adapter.ChatAdapter;
 import com.nbird.scribble.GUESS_DRAWING.Adapter.ResultAdapter;
 import com.nbird.scribble.GUESS_DRAWING.MODEL.ResultModel;
+import com.nbird.scribble.MAIN_MENU.Activity.MainActivity;
 import com.nbird.scribble.R;
 import com.nbird.scribble.WHITE_BOARD.Adapter.ObjectAdapter;
 import com.nbird.scribble.WHITE_BOARD.Model.ObjectModel;
+import com.nbird.scribble.WHITE_BOARD.WhiteBoardActivity;
 
 import java.util.ArrayList;
 
@@ -45,10 +49,16 @@ public class DialogResult {
     ResultAdapter myAdapter;
     LinearLayoutManager linearLayoutManager1;
     AlertDialog alertDialog;
+    CountDownTimer countDownTimer;
+    String myName; String myImage; String myUID;
 
-    public DialogResult(Context context,ArrayList<ResultModel> resultModelArrayList) {
+    public DialogResult(Context context, ArrayList<ResultModel> resultModelArrayList, String myName, String myImage, String myUID) {
         this.context = context;
         this.resultModelArrayList=resultModelArrayList;
+        this.myName=myName;
+        this.myImage=myImage;
+        this.myUID=myUID;
+
     }
 
     public void start(View v){
@@ -60,6 +70,36 @@ public class DialogResult {
          alertDialog=builderFact.create();
 
         recyclerview = (RecyclerView) viewFact.findViewById(R.id.recyclerView);
+
+        Button next=(Button) viewFact.findViewById(R.id.next);
+        ImageView cancel=(ImageView) viewFact.findViewById(R.id.cancel);
+
+        final int[] sec = {15};
+
+        countDownTimer=new CountDownTimer(15*1000,1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                sec[0]--;
+                next.setText("Next game starts in "+ sec[0] +" sec");
+            }
+
+            @Override
+            public void onFinish() {
+
+                try{
+                    countDownTimer.cancel();
+                }catch (Exception e){
+
+                }
+
+                Intent intent=new Intent(context, WhiteBoardActivity.class);
+                intent.putExtra("myName",myName);
+                intent.putExtra("myImage",myImage);
+                intent.putExtra("myUID",myUID);
+                context.startActivity(intent);
+
+            }
+        }.start();
 
 
 
@@ -87,6 +127,25 @@ public class DialogResult {
         recyclerview.setAdapter(myAdapter);
 
 
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try{
+                    alertDialog.dismiss();
+                }catch (Exception e){
+
+                }
+
+                try{
+                    countDownTimer.cancel();
+                }catch (Exception e){
+
+                }
+
+                Intent intent=new Intent(context, MainActivity.class);
+                context.startActivity(intent);
+            }
+        });
 
 
 

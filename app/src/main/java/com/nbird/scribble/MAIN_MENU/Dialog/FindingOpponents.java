@@ -140,6 +140,15 @@ public class FindingOpponents {
                 }catch (Exception e){
 
                 }
+
+                try{
+                    countDownTimer.cancel();
+                }catch (Exception e){
+
+                }
+
+                try{table_user.child("ROOM").child(myUID).removeEventListener(playerDetailsValueEventListener);}catch (Exception e){}
+
             }
         });
 
@@ -194,6 +203,14 @@ public class FindingOpponents {
             public void onFinish() {
 
                 try { alertDialog.dismiss();}catch (Exception e){}
+
+                try{
+                    countDownTimer.cancel();
+                }catch (Exception e){
+
+                }
+
+                try{table_user.child("ROOM").child(myUID).removeEventListener(playerDetailsValueEventListener);}catch (Exception e){}
 
 
                 Intent intent=new Intent(context, WhiteBoardActivity.class);
