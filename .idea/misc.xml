@@ -20,6 +20,7 @@
         <entry key="app/src/main/res/drawable/grey_black.xml" value="0.139" />
         <entry key="app/src/main/res/drawable/grey_black2.xml" value="0.225" />
         <entry key="app/src/main/res/drawable/half_round_button.xml" value="0.225" />
+        <entry key="app/src/main/res/drawable/ic_baseline_mail_24.xml" value="0.2405" />
         <entry key="app/src/main/res/drawable/ic_baseline_undo_24.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/loading_back.xml" value="0.225" />
         <entry key="app/src/main/res/drawable/main_card_boarder.xml" value="0.3395" />
@@ -37,6 +38,7 @@
         <entry key="app/src/main/res/drawable/undo.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/uniform_button.xml" value="0.224" />
         <entry key="app/src/main/res/font/ubuntu.xml" value="0.42717948717948717" />
+        <entry key="app/src/main/res/layout/activity_about_us.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/layout/activity_data_maker.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/layout/activity_drawing_guess.xml" value="0.38958333333333334" />
         <entry key="app/src/main/res/layout/activity_guess_drawing.xml" value="0.33" />

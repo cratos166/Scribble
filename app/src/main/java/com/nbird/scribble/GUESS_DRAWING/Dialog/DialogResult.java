@@ -74,9 +74,9 @@ public class DialogResult {
         Button next=(Button) viewFact.findViewById(R.id.next);
         ImageView cancel=(ImageView) viewFact.findViewById(R.id.cancel);
 
-        final int[] sec = {15};
+        final int[] sec = {30};
 
-        countDownTimer=new CountDownTimer(15*1000,1000) {
+        countDownTimer=new CountDownTimer(30*1000,1000) {
             @Override
             public void onTick(long millisUntilFinished) {
                 sec[0]--;

@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
 
     LottieAnimationView profilebutton;
 
-    Button play,how_to_play,about_us;
+    Button play,check_our_other_apps,about_us;
 
 
 
@@ -127,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
         profilebutton=(LottieAnimationView) findViewById(R.id.profilebutton);
 
         play=(Button) findViewById(R.id.play);
-        how_to_play=(Button) findViewById(R.id.how_to_play);
+        check_our_other_apps=(Button) findViewById(R.id.how_to_play);
         about_us=(Button) findViewById(R.id.about_us);
         dataMaker=(Button) findViewById(R.id.dataMaker);
 
@@ -140,6 +140,22 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        about_us.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(MainActivity.this,AboutUs.class);
+                startActivity(intent);
+            }
+        });
+
+
+        check_our_other_apps.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent browserIntent=new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/developer?id=Nifty+Nile"));
+                startActivity(browserIntent);
+            }
+        });
 
 
 

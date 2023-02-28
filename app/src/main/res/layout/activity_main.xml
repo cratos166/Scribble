@@ -159,9 +159,9 @@
                 android:gravity="center"
                 android:background="@drawable/mainmenubuttons"
                 android:fontFamily="@font/annie_use_your_telescope"
-                android:text="How To Play?"
+                android:text="Nifty Nile Apps"
                 android:textColor="@color/level_4"
-                android:textSize="22dp"
+                android:textSize="18dp"
                 android:textStyle="bold" />
 
             <Button
