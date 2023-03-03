@@ -25,6 +25,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.nbird.scribble.GUESS_DRAWING.Adapter.ChatAdapter;
+import com.nbird.scribble.GUESS_DRAWING.Adapter.WordsAdapter;
 import com.nbird.scribble.GUESS_DRAWING.Dialog.DialogResult;
 import com.nbird.scribble.GUESS_DRAWING.MODEL.ChatModel;
 import com.nbird.scribble.GUESS_DRAWING.MODEL.DrawingDataModel;
@@ -44,7 +45,7 @@ public class GuessDrawingActivity extends AppCompatActivity {
 
 
 
-    RecyclerView recyclerView2;
+    RecyclerView recyclerView2,wordsRecycler;
     LinearLayoutManager linearLayoutManager1;
     ChatAdapter chatAdapter;
     ArrayList<ChatModel> chatModelArrayList;
@@ -66,9 +67,9 @@ public class GuessDrawingActivity extends AppCompatActivity {
 
     String myName,myImage,myUID;
 
-    CountDownTimer countDownTimer;
+    CountDownTimer countDownTimer,countDownTimerWordsDisplay;
     TextView timerTexView;
-    int timeSec=45;
+    int timeSec=60;
 
     ArrayList<ResultModel> resultModelArrayList;
 
@@ -77,6 +78,10 @@ public class GuessDrawingActivity extends AppCompatActivity {
 
     CardView shiftCard;
 
+    ArrayList<String> wordsListArray;
+    WordsAdapter wordsAdapter;
+    final static int TOTAL_OBJECT=200;
+    HashMap<Integer, String> mapWord;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,8 +92,10 @@ public class GuessDrawingActivity extends AppCompatActivity {
         dataModelArrayList=new ArrayList<>();
         playerDetailsArrayList=new ArrayList<>();
         resultModelArrayList=new ArrayList<>();
+        wordsListArray=new ArrayList<>();
         myAns=new HashMap<>();
         extraPoint=new HashMap<>();
+        mapWord = new HashMap<>();
 
         for(int i=0;i<4;i++){
             extraPoint.put(i,0);
@@ -102,6 +109,7 @@ public class GuessDrawingActivity extends AppCompatActivity {
 
 
         recyclerView2=(RecyclerView) findViewById(R.id.recyclerView2);
+        wordsRecycler=(RecyclerView) findViewById(R.id.wordsRecycler);
         edit=(TextInputEditText) findViewById(R.id.edit);
         send=(Button) findViewById(R.id.send);
         picture=(ImageView) findViewById(R.id.picture);
@@ -120,6 +128,15 @@ public class GuessDrawingActivity extends AppCompatActivity {
 
         loadingAlertDialog=new LoadingAlertDialog(GuessDrawingActivity.this);
         loadingAlertDialog.showLoadingDialog();
+
+
+        LinearLayoutManager linearLayoutManagerWords = new LinearLayoutManager(this);
+        linearLayoutManagerWords.setOrientation(wordsRecycler.HORIZONTAL);
+        wordsRecycler.setLayoutManager(linearLayoutManagerWords);
+        wordsAdapter = new WordsAdapter(this, wordsListArray);
+        wordsRecycler.setAdapter(wordsAdapter);
+
+
 
 
 
@@ -154,11 +171,16 @@ public class GuessDrawingActivity extends AppCompatActivity {
                 ChatModel chatModel=new ChatModel(1,"You skipped the drawing of "+playerDetailsArrayList.get(currentPosition).getMyName());
                 chatModelArrayList.add(chatModel);
 
+                ChatModel chatModel5=new ChatModel(1,"The word was "+dataModelArrayList.get(currentPosition).getName());
+                chatModelArrayList.add(chatModel5);
+
                 myAns.put(currentPosition,false);
 
                 currentPosition++;
 
                 if(currentPosition!=3){
+                    try{ countDownTimerWordsDisplay.cancel();}catch (Exception e){}
+                    wordSetter();
                     ChatModel chatModel1=new ChatModel(3,"Guess the drawing by "+playerDetailsArrayList.get(currentPosition).getMyName());
                     chatModelArrayList.add(chatModel1);
 
@@ -171,12 +193,17 @@ public class GuessDrawingActivity extends AppCompatActivity {
 
                     }
                 }else{
+                    wordsListArray.clear();
+                    wordsAdapter.notifyDataSetChanged();
                     picture.setBackgroundResource(R.color.white);
                     ChatModel chatModel1=new ChatModel(3,"Done");
                     chatModelArrayList.add(chatModel1);
 
                     ChatModel chatModel2=new ChatModel(3,"Please wait unit time is over");
                     chatModelArrayList.add(chatModel2);
+
+                    ChatModel chatModel6=new ChatModel(1,"The word was "+dataModelArrayList.get(currentPosition).getName());
+                    chatModelArrayList.add(chatModel6);
 
                     edit.setVisibility(View.GONE);
                     send.setVisibility(View.GONE);
@@ -406,6 +433,58 @@ public class GuessDrawingActivity extends AppCompatActivity {
 
     }
 
+
+    private void wordSetter(){
+        mapWord.clear();
+        wordsListArray.clear();
+        int num = dataModelArrayList.get(currentPosition).getName().length();
+        for (int i = 0; i < num; i++) {
+            wordsListArray.add(" _ ");
+        }
+        wordsAdapter.notifyDataSetChanged();
+
+        int k = 7;
+
+        characterReveal(k, dataModelArrayList.get(currentPosition).getName(), num, mapWord);
+
+    }
+
+
+    private void characterReveal(int k, String str, int num, HashMap<Integer, String> mapWord) {
+        countDownTimerWordsDisplay = new CountDownTimer(1000 * k, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+
+            }
+
+            @Override
+            public void onFinish() {
+                wordsListArray.clear();
+
+                Random random = new Random();
+                int anInt = random.nextInt(str.length() - 1);
+                char ch = str.charAt(anInt);
+
+                mapWord.put(anInt, String.valueOf(ch));
+
+
+                for (int i = 0; i < num; i++) {
+                    try {
+                        if (mapWord.get(i).equals(null)) {
+                            wordsListArray.add(" _ ");
+                        } else {
+                            wordsListArray.add(" " + mapWord.get(i) + " ");
+                        }
+                    } catch (Exception e) {
+                        wordsListArray.add(" _ ");
+                    }
+                }
+                wordsAdapter.notifyDataSetChanged();
+                characterReveal(k, str, num, mapWord);
+            }
+        }.start();
+    }
+
     private void resultComparator() {
 
         Collections.sort(resultModelArrayList, new Comparator<ResultModel>() {
@@ -427,6 +506,13 @@ public class GuessDrawingActivity extends AppCompatActivity {
             currentPosition++;
 
             if(currentPosition!=3){
+
+                try{ countDownTimerWordsDisplay.cancel();}catch (Exception e){}
+                wordSetter();
+
+
+
+
                 ChatModel chatModel1=new ChatModel(3,"Guess the drawing by "+playerDetailsArrayList.get(currentPosition).getMyName());
                 chatModelArrayList.add(chatModel1);
 
@@ -439,6 +525,8 @@ public class GuessDrawingActivity extends AppCompatActivity {
 
                 }
             }else{
+                wordsListArray.clear();
+                wordsAdapter.notifyDataSetChanged();
                 picture.setBackgroundResource(R.color.white);
                 ChatModel chatModel1=new ChatModel(3,"Done");
                 chatModelArrayList.add(chatModel1);
@@ -467,7 +555,7 @@ public class GuessDrawingActivity extends AppCompatActivity {
         Random random=new Random();
 
         for(int i=0;i<3;i++){
-            int num=random.nextInt(3)+1;
+            int num=random.nextInt(TOTAL_OBJECT)+1;
             int finalI = i;
             myRef.child("OBJECT_DATA").child(String.valueOf(num)).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
@@ -494,6 +582,9 @@ public class GuessDrawingActivity extends AppCompatActivity {
                         }catch (Exception e){
 
                         }
+
+                        wordSetter();
+
 
                     }
 
@@ -598,6 +689,8 @@ public class GuessDrawingActivity extends AppCompatActivity {
         super.onDestroy();
 
         try{countDownTimer.cancel();}catch (Exception e){}
+        try{countDownTimerWordsDisplay.cancel();}catch (Exception e){}
+
 
     }
 

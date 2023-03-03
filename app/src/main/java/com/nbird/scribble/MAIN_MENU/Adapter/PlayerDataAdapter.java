@@ -43,6 +43,8 @@ public class PlayerDataAdapter extends RecyclerView.Adapter<PlayerDataAdapter.My
     @Override
     public void onBindViewHolder( final MyViewHolder holder, final int position) {
 
+        holder.setIsRecyclable(false);
+
         holder.name.setText(mData.get(position).getMyName());
 
         Glide.with(mContext).load(mData.get(position).getMyImage()).apply(RequestOptions

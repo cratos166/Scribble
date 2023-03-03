@@ -44,6 +44,7 @@ import com.google.firebase.storage.UploadTask;
 import com.nbird.scribble.DATA.AppData;
 import com.nbird.scribble.DATA.AppString;
 import com.nbird.scribble.DATA_MAKER.DataMakerActivity;
+import com.nbird.scribble.DATA_MAKER.JsonMaker;
 import com.nbird.scribble.MAIN_MENU.Dialog.FindingOpponents;
 import com.nbird.scribble.MAIN_MENU.Model.PlayerInfo;
 import com.nbird.scribble.R;
@@ -130,6 +131,18 @@ public class MainActivity extends AppCompatActivity {
         check_our_other_apps=(Button) findViewById(R.id.how_to_play);
         about_us=(Button) findViewById(R.id.about_us);
         dataMaker=(Button) findViewById(R.id.dataMaker);
+
+
+        Button jsonDataMaker=(Button) findViewById(R.id.jsonDataMaker);
+
+        jsonDataMaker.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                JsonMaker jsonMaker=new JsonMaker(1,2000);
+                jsonMaker.objectJSON();
+            }
+        });
+
 
         dataMaker.setOnClickListener(new View.OnClickListener() {
             @Override

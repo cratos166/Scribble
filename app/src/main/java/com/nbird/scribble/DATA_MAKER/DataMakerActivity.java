@@ -55,6 +55,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.UUID;
 
 import petrov.kristiyan.colorpicker.ColorPicker;
 
@@ -77,7 +78,7 @@ public class DataMakerActivity extends AppCompatActivity {
     DatabaseReference myRef = database.getReference();
 
 
-    String CATEGORY="FRUITS";
+    String CATEGORY="MATERIAL";
 
     ValueEventListener valueEventListener;
 
@@ -243,7 +244,9 @@ public class DataMakerActivity extends AppCompatActivity {
         //opening a OutputStream to write into the file
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         bmp.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-        String path = MediaStore.Images.Media.insertImage(getApplicationContext().getContentResolver(), bmp, "Title", null);
+        Random random=new Random();
+        int kk=random.nextInt();
+        String path = MediaStore.Images.Media.insertImage(getApplicationContext().getContentResolver(), bmp, String.valueOf(kk), null);
         Uri uri=Uri.parse(path);
 
         if (uri != null) {

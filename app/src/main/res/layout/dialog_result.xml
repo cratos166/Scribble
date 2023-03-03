@@ -63,7 +63,6 @@
                 android:fontFamily="@font/annie_use_your_telescope"
                 android:gravity="center"
                 android:padding="10dp"
-                android:layout_marginTop="10dp"
                 android:text="RESULTS"
                 android:textColor="@color/text_head"
                 android:textSize="18dp"

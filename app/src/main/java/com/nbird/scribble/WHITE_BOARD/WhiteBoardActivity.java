@@ -60,6 +60,7 @@ public class WhiteBoardActivity extends AppCompatActivity {
     CountDownTimer countDownTimer;
     int timer=40;
     String myName,myImage,myUID;
+    final static int TOTAL_OBJECT=200;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +72,7 @@ public class WhiteBoardActivity extends AppCompatActivity {
         Random random=new Random();
 
         for(int i=0;i<4;i++){
-            int num=random.nextInt(10)+1;
+            int num=random.nextInt(TOTAL_OBJECT)+1;
             arrayList.add(num);
         }
 

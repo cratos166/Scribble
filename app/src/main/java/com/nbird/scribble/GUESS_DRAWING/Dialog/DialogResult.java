@@ -1,5 +1,6 @@
 package com.nbird.scribble.GUESS_DRAWING.Dialog;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
@@ -97,6 +98,7 @@ public class DialogResult {
                 intent.putExtra("myImage",myImage);
                 intent.putExtra("myUID",myUID);
                 context.startActivity(intent);
+                ((Activity) context).finish();
 
             }
         }.start();
