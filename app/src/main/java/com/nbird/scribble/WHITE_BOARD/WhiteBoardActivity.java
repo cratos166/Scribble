@@ -31,19 +31,29 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.slider.RangeSlider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.nbird.scribble.DATA_MAKER.DataMakerActivity;
 import com.nbird.scribble.GUESS_DRAWING.GuessDrawingActivity;
+import com.nbird.scribble.GUESS_DRAWING.MODEL.DrawingDataModel;
 import com.nbird.scribble.MAIN_MENU.Activity.MainActivity;
 import com.nbird.scribble.R;
 import com.nbird.scribble.WHITE_BOARD.Dialog.DialogSelectDrawingObject;
 import com.nbird.scribble.WHITE_BOARD.DrawView.DrawView;
 
+import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Random;
@@ -61,6 +71,19 @@ public class WhiteBoardActivity extends AppCompatActivity {
     int timer=40;
     String myName,myImage,myUID;
     final static int TOTAL_OBJECT=200;
+
+    StorageReference ref;
+    FirebaseStorage storage;
+    StorageReference storageReference;
+    StorageReference storageRef = FirebaseStorage.getInstance().getReference();
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference myRef = database.getReference();
+
+    String CATEGORY="USER_MAKER";
+
+    ValueEventListener valueEventListener;
+
+    int ObjectCount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,6 +130,30 @@ public class WhiteBoardActivity extends AppCompatActivity {
         timerTexView=(TextView) findViewById(R.id.timerTexView);
 
 
+
+
+
+        valueEventListener=new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                try{
+                    ObjectCount=snapshot.getValue(Integer.class);
+                }catch (Exception e){
+                    ObjectCount=0;
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        };
+
+        myRef.child("OBJECT_COUNT").addValueEventListener(valueEventListener);
+
+
+
+
         countDownTimer=new CountDownTimer(40*1000,1000) {
             @Override
             public void onTick(long millisUntilFinished) {
@@ -116,6 +163,13 @@ public class WhiteBoardActivity extends AppCompatActivity {
 
             @Override
             public void onFinish() {
+
+
+
+                uploadData();
+
+
+
 
                 Intent intent=new Intent(WhiteBoardActivity.this, GuessDrawingActivity.class);
                 intent.putExtra("myName",myName);
@@ -201,6 +255,130 @@ public class WhiteBoardActivity extends AppCompatActivity {
         });
 
     }
+
+
+    private void uploadData(){
+        Bitmap bmp = paint.save();
+        //opening a OutputStream to write into the file
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        bmp.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        Random random=new Random();
+        int kk=random.nextInt();
+        String path = MediaStore.Images.Media.insertImage(getApplicationContext().getContentResolver(), bmp, String.valueOf(kk), null);
+        Uri uri=Uri.parse(path);
+
+        if (uri != null) {
+
+
+
+
+            // Code for showing progressDialog while uploading
+            final ProgressDialog progressDialog
+                    = new ProgressDialog(this);
+            progressDialog.setTitle("Uploading...");
+            progressDialog.show();
+
+            // Defining the child of storageReference
+            storage = FirebaseStorage.getInstance();
+            storageReference = storage.getReference();
+
+
+
+
+            ref = storageReference.child("OBJECT/" + CATEGORY+"/"+wordTextView.getText().toString()+"/"+ObjectCount);
+
+
+
+            // adding listeners on upload
+            // or failure of image
+            ref.putFile(uri)
+                    .addOnSuccessListener(
+                            new OnSuccessListener<UploadTask.TaskSnapshot>() {
+
+                                @Override
+                                public void onSuccess(
+                                        UploadTask.TaskSnapshot taskSnapshot)
+                                {
+
+                                    // Image uploaded successfully
+                                    // Dismiss dialog
+                                    progressDialog.dismiss();
+                                    Toast.makeText(WhiteBoardActivity.this, "Image Uploaded!!", Toast.LENGTH_SHORT).show();
+                                    try{
+
+                                        StorageReference urlref = storageRef.child("OBJECT/" + CATEGORY+"/"+wordTextView.getText().toString()+"/"+ObjectCount);
+                                        urlref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>()
+                                        {
+                                            @Override
+                                            public void onSuccess(Uri downloadUrl)
+                                            {
+
+                                                String objImage=downloadUrl.toString();
+
+                                                ObjectCount++;
+
+
+                                                myRef.child("OBJECT_COUNT").setValue(ObjectCount).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<Void> task) {
+                                                        DrawingDataModel drawingDataModel=new DrawingDataModel(ObjectCount,wordTextView.getText().toString(),objImage);
+
+                                                        myRef.child("OBJECT_DATA").child(String.valueOf(ObjectCount)).setValue(drawingDataModel).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                            @Override
+                                                            public void onComplete(@NonNull Task<Void> task) {
+
+                                                            }
+                                                        });
+
+                                                    }
+                                                });
+
+                                            }
+                                        });
+
+                                    }catch (Exception e){
+
+                                    }
+                                }
+                            })
+
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e)
+                        {
+
+                            // Error, Image not uploaded
+                            progressDialog.dismiss();
+                            Toast
+                                    .makeText(WhiteBoardActivity.this,
+                                            "Failed " + e.getMessage(),
+                                            Toast.LENGTH_SHORT)
+                                    .show();
+                        }
+                    })
+                    .addOnProgressListener(
+                            new OnProgressListener<UploadTask.TaskSnapshot>() {
+
+                                // Progress Listener for loading
+                                // percentage on the dialog box
+                                @Override
+                                public void onProgress(
+                                        UploadTask.TaskSnapshot taskSnapshot)
+                                {
+                                    double progress
+                                            = (100.0
+                                            * taskSnapshot.getBytesTransferred()
+                                            / taskSnapshot.getTotalByteCount());
+                                    progressDialog.setMessage(
+                                            "Uploaded "
+                                                    + (int)progress + "%");
+                                }
+                            });
+        }
+
+
+    }
+
 
     private void getStoragePermission() {
         if (Build.VERSION.SDK_INT >= 23) {
