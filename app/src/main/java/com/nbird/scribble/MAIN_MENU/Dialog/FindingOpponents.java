@@ -17,6 +17,12 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.ads.nativetemplates.NativeTemplateStyle;
+import com.google.android.ads.nativetemplates.TemplateView;
+import com.google.android.gms.ads.AdLoader;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.nativead.NativeAd;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -28,6 +34,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import com.nbird.scribble.BOT.AvatarLink;
 import com.nbird.scribble.BOT.BOTName;
+import com.nbird.scribble.DATA.AppString;
 import com.nbird.scribble.MAIN_MENU.Adapter.PlayerDataAdapter;
 import com.nbird.scribble.MAIN_MENU.Model.PlayerDetails;
 import com.nbird.scribble.R;
@@ -66,6 +73,7 @@ public class FindingOpponents {
     String myName,myImage,myUID;
     TextView numberOfPlayersJoinedTextView,headingTextView;
     AlertDialog alertDialog;
+    NativeAd NATIVE_ADS;
 
     public FindingOpponents(Context context,String myName,String myImage,String myUID) {
         this.context = context;
@@ -110,7 +118,24 @@ public class FindingOpponents {
 
 
 
+        MobileAds.initialize(context);
+        AdLoader adLoader = new AdLoader.Builder(context, AppString.NATIVE_ID)
+                .forNativeAd(new NativeAd.OnNativeAdLoadedListener() {
+                    @Override
+                    public void onNativeAdLoaded(NativeAd nativeAd) {
+                        ColorDrawable cd = new ColorDrawable(0x393F4E);
 
+                        NativeTemplateStyle styles = new NativeTemplateStyle.Builder().withMainBackgroundColor(cd).build();
+                        TemplateView template = viewFact.findViewById(R.id.my_template);
+                        template.setStyles(styles);
+                        template.setNativeAd(nativeAd);
+                        template.setVisibility(View.VISIBLE);
+                        NATIVE_ADS=nativeAd;
+                    }
+                })
+                .build();
+
+        adLoader.loadAd(new AdRequest.Builder().build());
 
 
 

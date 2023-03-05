@@ -31,6 +31,13 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.android.ads.nativetemplates.NativeTemplateStyle;
+import com.google.android.ads.nativetemplates.TemplateView;
+import com.google.android.gms.ads.AdLoader;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.nativead.NativeAd;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -45,11 +52,13 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.nbird.scribble.DATA.AppString;
 import com.nbird.scribble.DATA_MAKER.DataMakerActivity;
 import com.nbird.scribble.GUESS_DRAWING.GuessDrawingActivity;
 import com.nbird.scribble.GUESS_DRAWING.MODEL.DrawingDataModel;
 import com.nbird.scribble.MAIN_MENU.Activity.MainActivity;
 import com.nbird.scribble.R;
+import com.nbird.scribble.UNIVERSAL.DIALOG.QuitAskerDialog;
 import com.nbird.scribble.WHITE_BOARD.Dialog.DialogSelectDrawingObject;
 import com.nbird.scribble.WHITE_BOARD.DrawView.DrawView;
 
@@ -84,7 +93,8 @@ public class WhiteBoardActivity extends AppCompatActivity {
     ValueEventListener valueEventListener;
 
     int ObjectCount;
-
+    NativeAd NATIVE_ADS;
+    AdView mAdView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -131,6 +141,29 @@ public class WhiteBoardActivity extends AppCompatActivity {
 
 
 
+        mAdView = findViewById(R.id.adView);
+        mAdView.setVisibility(View.VISIBLE);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+
+        MobileAds.initialize(WhiteBoardActivity.this);
+        AdLoader adLoaderd = new AdLoader.Builder(WhiteBoardActivity.this, AppString.NATIVE_ID)
+                .forNativeAd(new NativeAd.OnNativeAdLoadedListener() {
+                    @Override
+                    public void onNativeAdLoaded(NativeAd nativeAd) {
+                        ColorDrawable cd = new ColorDrawable(0x393F4E);
+
+                        NativeTemplateStyle styles = new NativeTemplateStyle.Builder().withMainBackgroundColor(cd).build();
+                        TemplateView template = findViewById(R.id.my_template);
+                        template.setStyles(styles);
+                        template.setNativeAd(nativeAd);
+                        template.setVisibility(View.VISIBLE);
+                        NATIVE_ADS=nativeAd;
+                    }
+                })
+                .build();
+
+        adLoaderd.loadAd(new AdRequest.Builder().build());
 
 
         valueEventListener=new ValueEventListener() {
@@ -165,9 +198,9 @@ public class WhiteBoardActivity extends AppCompatActivity {
             public void onFinish() {
 
 
-
-                uploadData();
-
+                if(!paint.isEmpty()){
+                    uploadData();
+                }
 
 
 
@@ -303,7 +336,6 @@ public class WhiteBoardActivity extends AppCompatActivity {
                                     // Image uploaded successfully
                                     // Dismiss dialog
                                     progressDialog.dismiss();
-                                    Toast.makeText(WhiteBoardActivity.this, "Image Uploaded!!", Toast.LENGTH_SHORT).show();
                                     try{
 
                                         StorageReference urlref = storageRef.child("OBJECT/" + CATEGORY+"/"+wordTextView.getText().toString()+"/"+ObjectCount);
@@ -494,9 +526,14 @@ public class WhiteBoardActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
+        try{mAdView.destroy();}catch (Exception e){}
         try{countDownTimer.cancel();}catch (Exception e){}
 
+    }
+
+    public void onBackPressed() {
+        QuitAskerDialog dialog=new QuitAskerDialog(WhiteBoardActivity.this,countDownTimer);
+        dialog.start(paint);
     }
 
 }

@@ -181,6 +181,7 @@
             <Button
                 android:id="@+id/dataMaker"
                 android:layout_width="100dp"
+                android:visibility="gone"
                 android:layout_height="wrap_content"
                 android:text="DATA MAKER"
                 />
@@ -188,7 +189,7 @@
             <Button
                 android:id="@+id/jsonDataMaker"
                 android:layout_width="100dp"
-                android:visibility="gone"
+                android:visibility="visible"
                 android:layout_height="wrap_content"
                 android:text="JSON MAKER"
                 />
@@ -198,6 +199,18 @@
 
     </LinearLayout>
 
+
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/adView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        app:adSize="BANNER"
+        app:adUnitId="@string/bannerId"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

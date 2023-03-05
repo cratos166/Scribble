@@ -30,6 +30,8 @@ import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -106,6 +108,7 @@ public class MainActivity extends AppCompatActivity {
     AlertDialog alertDialog;
 
     Button dataMaker;
+    AdView mAdView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,6 +120,15 @@ public class MainActivity extends AppCompatActivity {
         listAvaURL=new ArrayList<>();
 
         loadingAlertDialog=new LoadingAlertDialog(MainActivity.this);
+
+
+
+
+            mAdView = findViewById(R.id.adView);
+            mAdView.setVisibility(View.VISIBLE);
+            AdRequest adRequest = new AdRequest.Builder().build();
+            mAdView.loadAd(adRequest);
+
 
 
         appData=new AppData(MainActivity.this);
@@ -138,7 +150,7 @@ public class MainActivity extends AppCompatActivity {
         jsonDataMaker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                JsonMaker jsonMaker=new JsonMaker(1,2000);
+                JsonMaker jsonMaker=new JsonMaker(201,500);
                 jsonMaker.objectJSON();
             }
         });

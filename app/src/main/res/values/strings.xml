@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Scribble</string>
+    <string name="bannerId">ca-app-pub-3940256099942544/6300978111</string>
 </resources>
+
+    <!--REAL Banner : ca-app-pub-2384938955607297/1392342217-->
+    <!--DEMO Banner : ca-app-pub-3940256099942544/6300978111-->

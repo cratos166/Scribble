@@ -8,10 +8,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
 import com.nbird.scribble.R;
 
 public class AboutUs extends AppCompatActivity {
-
+    AdView mAdView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,7 +29,10 @@ public class AboutUs extends AppCompatActivity {
         TextView instaZimmy=(TextView) findViewById(R.id.instaZimmy);
 
 
-
+        mAdView = findViewById(R.id.adView);
+        mAdView.setVisibility(View.VISIBLE);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
 
 
         emailKartik.setOnClickListener(new View.OnClickListener() {

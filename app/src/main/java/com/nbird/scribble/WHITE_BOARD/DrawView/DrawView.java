@@ -49,6 +49,14 @@ public class DrawView extends View {
 
     }
 
+    public boolean isEmpty(){
+        if(paths.isEmpty()){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
     //this method instantiate the bitmap and object
     public void init(int height, int width) {
 

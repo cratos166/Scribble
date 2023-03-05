@@ -6,6 +6,7 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -17,13 +18,20 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.ads.nativetemplates.NativeTemplateStyle;
+import com.google.android.ads.nativetemplates.TemplateView;
+import com.google.android.gms.ads.AdLoader;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.nativead.NativeAd;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.nbird.scribble.DATA.AppString;
 import com.nbird.scribble.GUESS_DRAWING.Adapter.ChatAdapter;
 import com.nbird.scribble.GUESS_DRAWING.Adapter.WordsAdapter;
 import com.nbird.scribble.GUESS_DRAWING.Dialog.DialogResult;
@@ -33,12 +41,12 @@ import com.nbird.scribble.GUESS_DRAWING.MODEL.ResultModel;
 import com.nbird.scribble.MAIN_MENU.Model.PlayerDetails;
 import com.nbird.scribble.R;
 import com.nbird.scribble.UNIVERSAL.DIALOG.LoadingAlertDialog;
+import com.nbird.scribble.UNIVERSAL.DIALOG.QuitAskerDialog;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Random;
 
 public class GuessDrawingActivity extends AppCompatActivity {
@@ -62,7 +70,6 @@ public class GuessDrawingActivity extends AppCompatActivity {
     ImageView picture;
 
     LoadingAlertDialog loadingAlertDialog;
-    ValueEventListener valueEventListener;
     ArrayList<PlayerDetails> playerDetailsArrayList;
 
     String myName,myImage,myUID;
@@ -80,8 +87,10 @@ public class GuessDrawingActivity extends AppCompatActivity {
 
     ArrayList<String> wordsListArray;
     WordsAdapter wordsAdapter;
-    final static int TOTAL_OBJECT=200;
+    int TOTAL_OBJECT=200;
     HashMap<Integer, String> mapWord;
+    NativeAd NATIVE_ADS;
+    AdView mAdView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,6 +109,11 @@ public class GuessDrawingActivity extends AppCompatActivity {
         for(int i=0;i<4;i++){
             extraPoint.put(i,0);
         }
+
+
+
+
+
 
         myAns.put(0,false); myAns.put(1,false); myAns.put(2,false);
 
@@ -139,6 +153,30 @@ public class GuessDrawingActivity extends AppCompatActivity {
 
 
 
+        mAdView = findViewById(R.id.adView);
+        mAdView.setVisibility(View.VISIBLE);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+
+        MobileAds.initialize(GuessDrawingActivity.this);
+        AdLoader adLoaderd = new AdLoader.Builder(GuessDrawingActivity.this, AppString.NATIVE_ID)
+                .forNativeAd(new NativeAd.OnNativeAdLoadedListener() {
+                    @Override
+                    public void onNativeAdLoaded(NativeAd nativeAd) {
+                        ColorDrawable cd = new ColorDrawable(0x393F4E);
+
+                        NativeTemplateStyle styles = new NativeTemplateStyle.Builder().withMainBackgroundColor(cd).build();
+                        TemplateView template = findViewById(R.id.my_template);
+                        template.setStyles(styles);
+                        template.setNativeAd(nativeAd);
+                        template.setVisibility(View.VISIBLE);
+                        NATIVE_ADS=nativeAd;
+                    }
+                })
+                .build();
+
+        adLoaderd.loadAd(new AdRequest.Builder().build());
+
 
         edit.setOnKeyListener(new View.OnKeyListener()
         {
@@ -150,7 +188,7 @@ public class GuessDrawingActivity extends AppCompatActivity {
                     {
                         case KeyEvent.KEYCODE_DPAD_CENTER:
                         case KeyEvent.KEYCODE_ENTER:
-                            messageSender();
+                            if(edit.getText().toString().equals("")){edit.setError("Input field is empty!");}else{messageSender();}
                     }
                 }
                 return false;
@@ -160,7 +198,7 @@ public class GuessDrawingActivity extends AppCompatActivity {
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                messageSender();
+                if(edit.getText().toString().equals("")){edit.setError("Input field is empty!");}else{messageSender();}
             }
         });
 
@@ -220,6 +258,7 @@ public class GuessDrawingActivity extends AppCompatActivity {
         });
 
 
+
         myRef.child("ROOM").child(myUID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -232,7 +271,20 @@ public class GuessDrawingActivity extends AppCompatActivity {
                         }
                     }
 
-                    objectDataGetter();
+                    myRef.child("OBJ_COUNTER").addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            TOTAL_OBJECT=snapshot.getValue(Integer.class);
+                            objectDataGetter();
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+
+
 
                 ChatModel chatModel1=new ChatModel(3,"Guess the drawing by "+playerDetailsArrayList.get(currentPosition).getMyName());
                 chatModelArrayList.add(chatModel1);
@@ -497,7 +549,7 @@ public class GuessDrawingActivity extends AppCompatActivity {
     }
 
     private void messageSender(){
-        if(equalIgnoreCase(edit.getText().toString(),dataModelArrayList.get(currentPosition).getName())){
+        if(equalIgnoreCase(edit.getText().toString().trim(),dataModelArrayList.get(currentPosition).getName())){
             ChatModel chatModel=new ChatModel(1,"You guessed the word!");
             chatModelArrayList.add(chatModel);
 
@@ -542,7 +594,7 @@ public class GuessDrawingActivity extends AppCompatActivity {
 
 
         }else{
-            ChatModel chatModel=new ChatModel(2,edit.getText().toString());
+            ChatModel chatModel=new ChatModel(2,edit.getText().toString().trim());
             chatModelArrayList.add(chatModel);
         }
         chatAdapter.notifyDataSetChanged();
@@ -687,11 +739,16 @@ public class GuessDrawingActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
+        try{mAdView.destroy();}catch (Exception e){}
         try{countDownTimer.cancel();}catch (Exception e){}
         try{countDownTimerWordsDisplay.cancel();}catch (Exception e){}
 
 
+    }
+
+    public void onBackPressed() {
+        QuitAskerDialog dialog=new QuitAskerDialog(GuessDrawingActivity.this, countDownTimer);
+        dialog.start(edit);
     }
 
 }

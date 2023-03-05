@@ -7,8 +7,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:scaleY="0.9"
     android:scaleX="0.9"
+    android:padding="10dp"
     xmlns:cardview="http://schemas.android.com/apk/res-auto"
-    android:padding="20dp"
     android:id="@+id/layoutDialogContainer">
 
     <androidx.cardview.widget.CardView
@@ -37,11 +37,13 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
             android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/my_template"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+           >
 
             <ImageView
                 android:id="@+id/cancel"
@@ -59,6 +61,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_marginTop="10dp"
                 android:background="@drawable/single_color_3"
                 android:fontFamily="@font/annie_use_your_telescope"
                 android:gravity="center"
@@ -71,12 +74,11 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/backlitemodeanim" />
 
-         <androidx.recyclerview.widget.RecyclerView
-             android:id="@+id/recyclerView"
-             android:layout_width="match_parent"
-             android:layout_height="500dp"
-             android:layout_margin="10dp"/>
-
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="400dp"
+                android:layout_margin="10dp" />
 
 
             <LinearLayout
@@ -91,8 +93,8 @@
                     android:layout_height="48dp"
                     android:layout_gravity="center"
                     android:layout_marginEnd="15dp"
-                    android:layout_weight="1"
                     android:layout_marginBottom="5dp"
+                    android:layout_weight="1"
                     android:background="@drawable/next_button"
                     android:fontFamily="@font/annie_use_your_telescope"
                     android:scaleX="0.8"
@@ -110,12 +112,22 @@
 
         </LinearLayout>
 
-
+        <com.google.android.ads.nativetemplates.TemplateView
+            android:id="@+id/my_template"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:layout_margin="5dp"
+            app:gnt_template_type="@layout/gnt_small_template_view"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
 
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 
 
