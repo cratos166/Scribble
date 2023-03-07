@@ -335,7 +335,12 @@ public class WhiteBoardActivity extends AppCompatActivity {
 
                                     // Image uploaded successfully
                                     // Dismiss dialog
-                                    progressDialog.dismiss();
+                                    try{
+                                        progressDialog.dismiss();
+                                    }catch (Exception e4){
+
+                                    }
+
                                     try{
 
                                         StorageReference urlref = storageRef.child("OBJECT/" + CATEGORY+"/"+wordTextView.getText().toString()+"/"+ObjectCount);
@@ -380,7 +385,11 @@ public class WhiteBoardActivity extends AppCompatActivity {
                         {
 
                             // Error, Image not uploaded
-                            progressDialog.dismiss();
+                            try{
+                                progressDialog.dismiss();
+                            }catch (Exception e5){
+
+                            }
                             Toast
                                     .makeText(WhiteBoardActivity.this,
                                             "Failed " + e.getMessage(),

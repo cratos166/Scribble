@@ -189,7 +189,7 @@
             <Button
                 android:id="@+id/jsonDataMaker"
                 android:layout_width="100dp"
-                android:visibility="visible"
+                android:visibility="gone"
                 android:layout_height="wrap_content"
                 android:text="JSON MAKER"
                 />

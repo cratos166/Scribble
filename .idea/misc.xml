@@ -22,6 +22,7 @@
         <entry key="app/src/main/res/drawable/half_round_button.xml" value="0.225" />
         <entry key="app/src/main/res/drawable/ic_baseline_mail_24.xml" value="0.2405" />
         <entry key="app/src/main/res/drawable/ic_baseline_undo_24.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.255" />
         <entry key="app/src/main/res/drawable/loading_back.xml" value="0.225" />
         <entry key="app/src/main/res/drawable/main_card_boarder.xml" value="0.3395" />
         <entry key="app/src/main/res/drawable/mainmenubuttons.xml" value="0.227" />
@@ -53,13 +54,15 @@
         <entry key="app/src/main/res/layout/dialog_model_2.xml" value="0.19630192502532928" />
         <entry key="app/src/main/res/layout/dialog_result.xml" value="0.33" />
         <entry key="app/src/main/res/layout/dialog_select_object.xml" value="0.33" />
-        <entry key="app/src/main/res/layout/layout_chat.xml" value="0.4036458333333333" />
+        <entry key="app/src/main/res/layout/layout_chat.xml" value="0.25" />
         <entry key="app/src/main/res/layout/loading_screen.xml" value="0.2" />
         <entry key="app/src/main/res/layout/lobby_detail_layout.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/layout/object_layout.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/layout/profile_selection_layout.xml" value="0.22" />
         <entry key="app/src/main/res/layout/result_item.xml" value="0.25" />
         <entry key="app/src/main/res/layout/words_asset.xml" value="0.2653985507246377" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.254" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.255" />
         <entry key="nativetemplates/src/main/res/layout/gnt_medium_template_view.xml" value="0.4036458333333333" />
         <entry key="nativetemplates/src/main/res/layout/gnt_small_template_view.xml" value="0.19630192502532928" />
         <entry key="nativetemplates/src/main/res/layout/small_2_ads.xml" value="0.4036458333333333" />
